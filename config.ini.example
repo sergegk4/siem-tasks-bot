@@ -1,0 +1,86 @@
+[siem]
+host = siem.local
+token = pat_
+
+[monitor]
+group = сбор логов авто-перезапуск
+restart = true
+interval = 10
+once = false
+
+[events]
+enabled = true
+check_interval = 1800
+window_minutes = 30
+min_eps = 50
+
+custom_task1 = task1
+custom_task2 = task2
+custom_task3 = task3
+custom_task4 = task4
+custom_eps_task1 = 8
+custom_eps_task2 = 10
+custom_eps_task3 = 10
+custom_eps_task4 = 10
+
+quiet_enabled = true
+quiet_start = 18:00
+quiet_end = 08:00
+quiet_skip_weekends = false
+quiet_timezone = Europe/Moscow
+
+match_field = task_id
+match_operator = =
+match_value_source = id
+repeat_alert_minutes = 30
+notify_recovery = true
+
+[sources]
+; включить мониторинг источников (event_src.host) внутри каждой задачи
+; группы [monitor] group: сбор статистики по количеству событий на источник
+; и ежесуточный CSV-отчёт по "молчащим" источникам
+enabled = true
+; путь к файлу SQLite с накопленной статистикой по источникам
+db_path = siem_sources.db
+; поле события, по которому группируются источники
+group_field = event_src.host
+; как часто (в часах) снимать статистику по источникам — только в рабочее время
+collect_interval_hours = 4
+; ширина окна group-by запроса, часы (обычно совпадает с collect_interval_hours)
+collect_window_hours = 4
+; рабочее время, в которое разрешён периодический сбор статистики (ЧЧ:MM)
+work_start = 09:00
+work_end = 18:00
+; собирать статистику только по будням (пн-пт), простой календарь без праздников
+work_days_only = true
+; порог "молчания" источника, рабочие дни (пн-пт) без единого события
+stale_business_days = 1
+; сколько дней хранить статистику в SQLite, дальше запись удаляется
+; (3 месяца ≈ 90 дней)
+retention_days = 30
+; время суток (ЧЧ:MM), после которого формируется суточный CSV-отчёт
+; по молчащим источникам (первый цикл проверки статусов после этого времени)
+report_time = 09:30
+; локальная папка для сохранения CSV-отчётов
+csv_dir = reports
+; дополнительно отправлять сформированный CSV файлом в Telegram
+report_via_telegram = true
+
+notify_summary = true
+
+events_ui_url_template = https://{host}/#/events/view?groupId=-1&filterId=-1&where={where}&period=range&start={start}&end={end}
+[telegram]
+enabled = true
+token = 
+chat_id = 
+topic = true
+topic_id = 
+; отдельный топик для алертов о падении потока событий.
+events_topic = true
+events_topic_id = 
+; отдельный топик для суточных отчётов по молчащим источникам.
+
+sources_topic_id = 
+;включает отправку сообщения «📊 Общая статистика источников» в Telegram сразу после каждого цикла сбора (не только раз в сутки, как отчёт по молчащим).
+sources_topic = true
+
