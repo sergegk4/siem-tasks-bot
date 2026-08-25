@@ -135,9 +135,6 @@ group(key: [event_src.host], agg: COUNT(*) as Cnt) | sort(Cnt desc) | limit(1000
 - Группировка через `/api/events/v3/events/aggregation` принимает **сырой PDQL-текст** в поле `filter`, а не собранный JSON-фильтр — так был обнаружен и подтверждён через DevTools реальный формат запроса.
 - Предупреждение вида `Local sources unavailable: ...` в ответе API не является фатальной ошибкой и не блокирует получение остальных данных.
 
-## Лицензия / поддержка
-
-Внутренний инструмент. Вопросы и доработки — по мере необходимости.
 ## Пример работы мониторинга источников
 <img width="492" height="500" alt="image" src="https://github.com/user-attachments/assets/a4abd55b-ea2b-4e71-b51a-eff2fa82da3e" />
 
