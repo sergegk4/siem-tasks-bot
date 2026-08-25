@@ -143,5 +143,7 @@ group(key: [event_src.host], agg: COUNT(*) as Cnt) | sort(Cnt desc) | limit(1000
 
 ## Пример работы мониторинга EPS
 <img width="532" height="566" alt="image" src="https://github.com/user-attachments/assets/ca9c2b99-051d-42bf-8e6c-286fdefb730c" />
+
 ## Пример работы мониторинга и перезапуска задач
+
 <img width="553" height="614" alt="image" src="https://github.com/user-attachments/assets/532e15ba-d857-4876-8eb0-bff40187a7ec" />
